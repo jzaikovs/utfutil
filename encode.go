@@ -5,7 +5,6 @@ import (
 	"encoding/binary"
 	"io"
 	"io/ioutil"
-	//"log"
 )
 
 // Encode encodes UTF-16 to UTF-8
@@ -15,10 +14,6 @@ func Encode(dst io.Writer, src io.Reader, endines binary.ByteOrder) error {
 	if err != nil {
 		return err
 	}
-
-	//log.Println(len(p))
-
-	//var endines binary.ByteOrder
 
 	// handle BOM
 	if p[0] == 0xfe && p[1] == 0xff {
@@ -64,18 +59,11 @@ func Encode(dst io.Writer, src io.Reader, endines binary.ByteOrder) error {
 	return err
 }
 
+// EncodeSlice encodes unicode to utf-8
 func EncodeSlice(p []byte, endienes binary.ByteOrder) []byte {
 	src := new(bytes.Buffer)
 	src.Write(p)
 	dst := new(bytes.Buffer)
 	Encode(dst, src, endienes)
-	return dst.Bytes()
-}
-
-func DecodeSlice(p []byte) []byte {
-	src := new(bytes.Buffer)
-	src.Write(p)
-	dst := new(bytes.Buffer)
-	Decode(dst, src)
 	return dst.Bytes()
 }

@@ -1,6 +1,7 @@
 package utfutil
 
 import (
+	"bytes"
 	"encoding/binary"
 	"io"
 	"io/ioutil"
@@ -56,4 +57,13 @@ func Decode(dst io.Writer, src io.Reader) error {
 	}
 	_, err = dst.Write(out[:j])
 	return err
+}
+
+// DecodeSlice decodes slice of utf-8 to unicode
+func DecodeSlice(p []byte) []byte {
+	src := new(bytes.Buffer)
+	src.Write(p)
+	dst := new(bytes.Buffer)
+	Decode(dst, src)
+	return dst.Bytes()
 }
